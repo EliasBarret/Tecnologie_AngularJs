@@ -1,0 +1,81 @@
+<html ng-app="listatelefonica">
+<head>
+	<title>Lista Telefonica</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+	<style>
+		.jumbotron{
+			width: 400px;
+			text-align: center;
+			margin-top: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.table{ 
+			margin-top: center;
+		}
+
+		.form-control{
+			margin-bottom: 5px;
+		}
+	</style>
+
+	<script src="lib/angular/angular.js"></script>
+
+	<script> 
+
+		angular.module("listatelefonica", []);
+		angular.module("listatelefonica").controller("listatelefonicaCtrl", function ($scope){
+			$scope.app = "Lista Telefonica";
+			$scope.contatos= [
+			{nome: "Elias", telefone: "98814-4581"},
+			{nome: "Eduardo", telefone: "99999-4581"},
+			{nome: "Oromar", telefone: "98814-8888"},
+			{nome: "Enorsul", telefone: "95555-4581"},
+			];
+			$scope.operadoras= [
+			{nome: "oi", codigo: 14, categoria: "celular"},
+			{nome: "tim", codigo: 51, categoria: "celular"},
+			{nome: "claro", codigo: 41, categoria: "celular"},
+			{nome: "gvt", codigo: 41, categoria: "fixo"},
+			{nome: "embratel", codigo: 41, categoria: "fixo"},
+			];
+			$scope.adicionarContato = function (contato){
+				$scope.contatos.push(angular.copy(contato));
+				delete $scope.contato;
+			}
+		});
+	</script>
+</head>
+<body ng-controller="listatelefonicaCtrl">
+	<div class="jumbotron">
+
+<!-- ng-bind copia o q tem no scope e exibe na view 
+	 ng-model pega o q tem na view e define 
+	 ng-click comportamento disparado por um evento -->
+
+	 <h3> {{app}} </h3>
+
+	 <table class ="table table-striped">
+	 	<tr>
+	 		<th>Nome</th>
+	 		<th>Telefone</th>
+	 		<th>Operadora</th>
+	 	</tr>
+	 	<tr ng-repeat = "contato in contatos">
+	 		<td>{{contato.nome}}</td>
+	 		<td>{{contato.telefone}}</td>
+	 		<td>{{contato.operadora.nome}}</td>
+	 	</tr>
+	 </table>
+	 <hr/>
+	 <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome">
+	 <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone">
+	 <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+	 	<option value="">Selecione uma Operadora</option>
+	 </select>
+	 <button class="btn btn-success btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome||!contato.telefone">Adicionar Contato</button>
+	</div>
+</body>
+</nav>
+</html>
